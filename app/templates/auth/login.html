@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Logowanie{% endblock %} {% block
+content %}
+<div class="login-container">
+  <h1>Logowanie do aplikacji</h1>
+  <p>Kliknij poniższy przycisk, aby zalogować się przez SSO:</p>
+  <button id="sso-login-btn" class="btn-primary">Zaloguj przez SSO</button>
+</div>
+{% endblock %} {% block scripts %}
+<script src="{{ url_for('static', filename='js/sso.js') }}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sso = new SSO({
+      loginUrl: "https://example.com/sso/login",
+      validateEndpoint: '{{ url_for("auth.validate_token") }}',
+      redirectUrl: '{{ url_for("main.index") }}',
+    });
+
+    document
+      .getElementById("sso-login-btn")
+      .addEventListener("click", function () {
+        sso.openLoginWindow();
+      });
+  });
+</script>
+{% endblock %}

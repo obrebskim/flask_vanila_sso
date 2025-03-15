@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Aplikacja Flask SSO{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    {% block styles %}{% endblock %}
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-container">
+          <a href="{{ url_for('main.index') }}" class="logo">Flask SSO App</a>
+          <div class="nav-links">
+            {% if session.get('user') %}
+            <span
+              >Witaj, {{ session.get('user').get('name', 'Użytkowniku')
+              }}!</span
+            >
+            <a href="{{ url_for('auth.logout') }}">Wyloguj</a>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}">Zaloguj</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer>
+      <p>&copy; 2023 Flask SSO App</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
